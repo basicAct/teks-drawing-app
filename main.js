@@ -69,7 +69,7 @@ let activeDrawnShape = null;
 actions.performDrawingOperation = (dop) => {
   if (dop.shape == DRAW_SHAPES.DOT) {
     context.fillStyle = dop.color;
-    context.fillRect(dop.x, dop.y , 10, 10);
+    context.fillRect(dop.x, dop.y , 2, 2);
     console.log("Drawn:", dop);
   } else {
     console.log("something strange with this drawing operation:", dop);
