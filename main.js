@@ -156,7 +156,7 @@ buttons.dot.onclick = () => {
   actions.selectShape(DRAW_SHAPES.DOT);  
 }
 
-buttons.rectangle.onclick = () => {
+buttons.rect.onclick = () => {
   actions.cancelAnyDrawShape();
   actions.selectShape(DRAW_SHAPES.RECTANGLE);  
 }
