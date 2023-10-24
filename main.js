@@ -18,8 +18,8 @@ for (let buttonElement of document.getElementsByTagName("button")) {
 
 let DRAW_COLORS = {
   BLACK: "#000",
-  GREEN: "#010",
-  RED:   "#100"
+  GREEN: "#00FF00",
+  RED:   "#FF0000"
 }
 
 let DRAW_SHAPES = {
@@ -46,14 +46,6 @@ function newDrawingOperation(shape, color, x, y, w, h) {
   };
 }
 
-function getCursorPosition(event) {
-    const rect = canvas.getBoundingClientRect()
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top 
-  }
-}
-
 function updateCanvas() {
   context.fillStyle = "#fff";
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -67,10 +59,14 @@ function updateCanvas() {
 let activeDrawnShape = null;
 
 actions.performDrawingOperation = (dop) => {
+  context.fillStyle = dop.color;
   if (dop.shape == DRAW_SHAPES.DOT) {
-    context.fillStyle = dop.color;
     context.fillRect(dop.x, dop.y , 2, 2);
     console.log("Drawn:", dop);
+  } else if (dop.shape == DRAW_SHAPES.RECTANGLE) {
+    context.fillRect(dop.x, dop.y , dop.w, dop.h);
+  } else if (dop.shape == DRAW_SHAPES.CIRCLE) {
+    
   } else {
     console.log("something strange with this drawing operation:", dop);
   }
@@ -98,23 +94,39 @@ actions.beginDrawShape = (mousePos) => {
   activeDrawnShape = {
     shape: currentSelection.selectedDrawShape,
     originX: mousePos.x,
-    originY: mousePos.y,
-    x1: mousePos.x,
-    x2: mousePos.y
+    originY: mousePos.y
   }
   
 }
 
-actions.updateDrawShape = () => {
+actions.updateDrawShape = (mousePos) => {
+  if (activeDrawnShape == null) 
+    return;
 
+  updateCanvas();
+  actions.performDrawingOperation(newDrawingOperation(activeDrawnShape.shape, currentSelection.selectedDrawColor, 
+                                                      activeDrawnShape.originX, activeDrawnShape.originY, 
+                                                      mousePos.x - activeDrawnShape.originX, mousePos.y - activeDrawnShape.originY));
+  
 }
 
-actions.endDrawShape = () => {
-  
+actions.endDrawShape = (mousePos) => {
+  if (activeDrawnShape == null) 
+    return;
+
+  updateCanvas();
+  drawingOperations.push(actions.performDrawingOperation(newDrawingOperation(activeDrawnShape.shape, currentSelection.selectedDrawColor, 
+                                                      activeDrawnShape.originX, activeDrawnShape.originY, 
+                                                      mousePos.x - activeDrawnShape.originX, mousePos.y - activeDrawnShape.originY)));
+  activeDrawnShape = null;
 }
 
 actions.selectColor = (colorChoice) => {
   currentSelection.selectedDrawColor = colorChoice ?? DRAW_COLORS.BLACK;
+}
+
+actions.selectShape = (shapeChoice) => {
+  currentSelection.selectedDrawShape = shapeChoice ?? DRAW_SHAPES.DOT;
 }
 
 actions.undo = () => {
@@ -137,30 +149,41 @@ buttons.red.onclick = () => {
 }
 
 
+buttons.undo.onclick = actions.undo;
+
+buttons.dot.onclick = () => {
+  actions.cancelAnyDrawShape();
+  actions.selectShape(DRAW_SHAPES.DOT);  
+}
+
+buttons.rectangle.onclick = () => {
+  actions.cancelAnyDrawShape();
+  actions.selectShape(DRAW_SHAPES.RECTANGLE);  
+}
+
+buttons.circle.onclick = () => {
+  actions.cancelAnyDrawShape();
+  actions.selectShape(DRAW_SHAPES.CIRCLE);  
+}
 
 
 
-
+function getCursorPosition(event) {
+    const rect = canvas.getBoundingClientRect()
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top 
+  }
+}
 
 canvas.addEventListener("mousedown", (event) => {
   actions.beginDrawShape(getCursorPosition(event));
 });
 
 canvas.addEventListener("mousemove", (event) => {
+  actions.updateDrawShape(getCursorPosition(event));
 });
 
 canvas.addEventListener("mouseup", (event) => {
+  actions.endDrawShape(getCursorPosition(event));
 });
-
-
-/*
-to do: 
-- set up draw with dot by default ( so also need draw_shape enum thing)
-- set up mouse events to draw, may have to use some kind of fake mouse that lerps 
-- need some sort of draw operation linked list or something to deal with undo
-- to do: write more todos lol
-- 
-- 
-- 
-*/
-
