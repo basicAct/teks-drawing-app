@@ -40,9 +40,9 @@ let drawingOperations = [];
 
 let actions = {};
 
-function newDrawingOperation(shape, color, x1, y1, w, h) {
+function newDrawingOperation(shape, color, x, y, w, h) {
   return {
-    shape, color, x1, y1, w, h
+    shape, color, x, y, w, h
   };
 }
 
