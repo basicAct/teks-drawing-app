@@ -3,7 +3,7 @@ let context = canvas.getContext("2d");
 
 let buttons = {}
 
-for (let buttonElement of document.getElementByTagName("button")) {
+for (let buttonElement of document.getElementsByTagName("button")) {
   if (buttonElement.id == "") {
     console.log("empty button id skipping");
     continue;
