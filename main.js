@@ -40,9 +40,9 @@ let drawingOperations = [];
 
 let actions = {};
 
-function newDrawingOperation(drawingShape, x1, y1, w, h) {
+function newDrawingOperation(shape, color, x1, y1, w, h) {
   return {
-    drawingShape, x1, y1, w, h
+    shape, color, x1, y1, w, h
   };
 }
 
@@ -67,7 +67,8 @@ function updateCanvas() {
 let activeDrawnShape = null;
 
 actions.performDrawingOperation = (dop) => {
-  if (dop.drawingShape == DRAW_SHAPES.DOT) {
+  if (dop.shape == DRAW_SHAPES.DOT) {
+    context.fillStyle = dop.color;
     context.fillRect(dop.x, dop.y , 1, 1);
   } else {
     console.log("something strange with this drawing operation:", dop);
@@ -89,7 +90,7 @@ actions.beginDrawShape = (mousePos) => {
 
 
   if (currentSelection.selectedDrawShape == DRAW_SHAPES.DOT) {
-    drawingOperations.push(actions.performDrawingOperation(newDrawingOperation(DRAW_SHAPES.DOT, mousePos.x, mousePos.y, 1, 1)));
+    drawingOperations.push(actions.performDrawingOperation(newDrawingOperation(DRAW_SHAPES.DOT, currentSelection.selectedDrawColor, mousePos.x, mousePos.y, 1, 1)));
     return;
   }
   
