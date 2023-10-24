@@ -66,7 +66,8 @@ actions.performDrawingOperation = (dop) => {
   } else if (dop.shape == DRAW_SHAPES.RECTANGLE) {
     context.fillRect(dop.x, dop.y , dop.w, dop.h);
   } else if (dop.shape == DRAW_SHAPES.CIRCLE) {
-    
+    context.ellipse(dop.x, dop.y, Math.abs(dop.w)*0.5, Math.abs(dop.h)*0.5, 0, Math.PI*2);
+    context.fill();
   } else {
     console.log("something strange with this drawing operation:", dop);
   }
