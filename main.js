@@ -23,9 +23,9 @@ let DRAW_COLORS = {
 }
 
 let DRAW_SHAPES = {
-  DOT,
-  RECTANGLE,
-  OVAL
+  DOT: "DOT",
+  RECTANGLE: "RECTANGLE",
+  OVAL: "OVAL"
 }
   
 
