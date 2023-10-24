@@ -69,7 +69,8 @@ let activeDrawnShape = null;
 actions.performDrawingOperation = (dop) => {
   if (dop.shape == DRAW_SHAPES.DOT) {
     context.fillStyle = dop.color;
-    context.fillRect(dop.x, dop.y , 1, 1);
+    context.fillRect(dop.x, dop.y , 10, 10);
+    console.log("Drawn:", dop);
   } else {
     console.log("something strange with this drawing operation:", dop);
   }
@@ -142,16 +143,13 @@ buttons.red.onclick = () => {
 
 
 canvas.addEventListener("mousedown", (event) => {
-  console.log("mouse up etst", )
   actions.beginDrawShape(getCursorPosition(event));
 });
 
 canvas.addEventListener("mousemove", (event) => {
-  console.log("mouse moving etst", getCursorPosition(event))
 });
 
 canvas.addEventListener("mouseup", (event) => {
-  console.log("mouse up etst", getCursorPosition(event))
 });
 
 
