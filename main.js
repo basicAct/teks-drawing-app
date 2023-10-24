@@ -89,7 +89,7 @@ actions.beginDrawShape = (mousePos) => {
 
 
   if (currentSelection.selectedDrawShape == DRAW_SHAPES.DOT) {
-    drawingOperations.push(actions.performDrawingOperation(newDrawingOperation(DRAW_SHAPES.DOT, mousePos.x, mousePos.y, 1, 1));
+    drawingOperations.push(actions.performDrawingOperation(newDrawingOperation(DRAW_SHAPES.DOT, mousePos.x, mousePos.y, 1, 1)));
     return;
   }
   
